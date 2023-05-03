@@ -6,7 +6,7 @@ module.exports = grammar({
   rules: {
     source_file: ($) => repeat($.command),
 
-    block: ($) => seq($._command_unit, "{", repeat($.command), "}"),
+    block: ($) => seq($._command_unit, "{", choice(repeat1($._command_unit), repeat($.command)), "}"),
     command: ($) => seq(repeat1($._command_unit), choice("\n", ";")),
     _command_unit: ($) =>
       choice(
@@ -17,7 +17,8 @@ module.exports = grammar({
         $.string,
         $.number,
         $.arg_spliter,
-        $.block
+        $.block,
+        ":"
       ),
     // ---- split the args -----
     arg_spliter: ($) => ",",
@@ -70,8 +71,8 @@ module.exports = grammar({
 
     _args: ($) =>
       seq(
-        choice($.string, $.unit, $.list),
-        repeat(seq(optional($.arg_spliter), choice($.string, $.unit, $.list)))
+        choice($.string, $.unit, $.list, ":"),
+        repeat(seq(optional($.arg_spliter), choice($.string, $.unit, $.list, ":")))
       ),
     // NOTE: both boolean ,type, def and valuename
     // and fucntionname, is the base type

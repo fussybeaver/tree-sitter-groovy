@@ -1,0 +1,35 @@
+===
+named arguments
+===
+
+logRotator(numToKeepStr: '5')
+
+---
+
+(source_file
+  (command
+    (unit
+      (func
+        (identifier)
+        (arg_block
+          (unit
+            (identifier))
+          (string))))))
+
+===
+block without newline or semi-colon
+===
+
+script { cicd.buildSuccess() }
+
+---
+(source_file
+  (command
+    (block
+      (unit
+        (identifier))
+      (unit
+        (identifier)
+        (func
+          (identifier)
+          (arg_block))))))
